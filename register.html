@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>เครื่องมือลงทะเบียนใบหน้าพนักงาน</title>
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        #descriptorOutput { width: 100%; height: 150px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>เครื่องมือลงทะเบียนใบหน้า (สำหรับ Admin)</h1>
+    <p><b>วิธีใช้:</b>
+        <ol>
+            <li>อัปโหลดรูปพนักงาน (เช่น EMP001.jpg) ไปยังโฟลเดอร์ `employee_images` บน GitHub ก่อน</li>
+            <li>ใส่รหัสพนักงาน (ไม่ต้องมี .jpg) ด้านล่าง แล้วกดปุ่ม</li>
+            <li>คัดลอกข้อมูลจากกล่องข้อความ ไปสร้างไฟล์ใหม่ในโฟลเดอร์ `descriptors` บน GitHub โดยตั้งชื่อไฟล์เป็น `รหัสพนักงาน.json` (เช่น EMP001.json)</li>
+        </ol>
+    </p>
+
+    <input type="text" id="employeeId" placeholder="ใส่รหัสพนักงาน เช่น EMP001">
+    <button onclick="generateDescriptor()">สร้างข้อมูลใบหน้า</button>
+    <hr>
+    <h3>ข้อมูล Descriptor (คัดลอกทั้งหมดนี้):</h3>
+    <textarea id="descriptorOutput"></textarea>
+
+    <script>
+        // ที่อยู่ Repository ของคุณ
+        const GITHUB_REPO_URL = `https://raw.githubusercontent.com/FENG_RUIZHENG/my-checkin-app/main/`;
+
+        async function generateDescriptor() {
+            const employeeId = document.getElementById('employeeId').value;
+            if (!employeeId) {
+                alert('กรุณาใส่รหัสพนักงาน');
+                return;
+            }
+
+            // แก้ไข YOUR_USERNAME และ YOUR_REPO_NAME เป็นของคุณ
+            if (GITHUB_REPO_URL.includes('YOUR_USERNAME')) {
+                alert('กรุณาแก้ไข YOUR_USERNAME และ YOUR_REPO_NAME ในไฟล์ register.html ก่อน');
+                return;
+            }
+
+            await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
+            await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
+            await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
+
+            const output = document.getElementById('descriptorOutput');
+            output.value = 'กำลังโหลดรูปและประมวลผล...';
+
+            // เราต้องเพิ่ม ?timestamp เพื่อป้องกัน browser cache รูปเก่า
+            const imageUrl = `<span class="math-inline">\{GITHUB\_REPO\_URL\}employee\_images/</span>{employeeId}.jpg?t=${new Date().getTime()}`;
+
+            try {
+                const img = await faceapi.fetchImage(imageUrl);
+                const detection = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
+
+                if (detection) {
+                    const descriptorArray = Array.from(detection.descriptor);
+                    output.value = JSON.stringify(descriptorArray);
+                } else {
+                    output.value = 'ไม่พบใบหน้าในรูปภาพ โปรดใช้รูปที่เห็นหน้าตรงและชัดเจน';
+                }
+            } catch (e) {
+                 output.value = 'ไม่สามารถโหลดรูปภาพได้! ตรวจสอบว่าชื่อไฟล์ถูกต้องและอัปโหลดไปยัง GitHub แล้วหรือยัง';
+                 console.error(e);
+            }
+        }
+    </script>
+</body>
+</html>
