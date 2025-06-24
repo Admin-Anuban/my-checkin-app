@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบเช็คชื่อพนักงาน</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>ระบบลงเวลาทำงาน</h1>
+        <p>เวอร์ชันใหม่ เร็ว แรง!</p>
+        <div class="card">
+            <form id="checkin-form">
+                <label for="employeeId">รหัสพนักงาน:</label>
+                <input type="text" id="employeeId" name="EmployeeID" required placeholder="เช่น EMP001">
+
+                <div class="button-group">
+                    <button type="submit" name="Status" value="Check-in" class="btn-checkin">
+                        <span class="btn-text">เช็คอิน (เข้างาน)</span>
+                    </button>
+                    <button type="submit" name="Status" value="Check-out" class="btn-checkout">
+                        <span class="btn-text">เช็คเอาท์ (ออกงาน)</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div id="status-message"></div>
+        <footer>
+            <p>พัฒนาระบบโดย (ใส่ชื่อของคุณ)</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
