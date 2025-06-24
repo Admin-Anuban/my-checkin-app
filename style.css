@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
+
+body {
+    font-family: 'Sarabun', sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+}
+.container {
+    text-align: center;
+    width: 90%;
+    max-width: 450px;
+}
+h1 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+.card {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-top: 1.5rem;
+}
+label {
+    display: block;
+    text-align: left;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #555;
+}
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+.button-group {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+@media (min-width: 480px) {
+    .button-group {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+button {
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    font-family: 'Sarabun', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+.btn-checkin { background-color: #27ae60; }
+.btn-checkout { background-color: #e74c3c; }
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+#status-message {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    min-height: 24px;
+}
+footer {
+    margin-top: 2rem;
+    color: #888;
+    font-size: 0.9rem;
+}
